@@ -4,11 +4,13 @@ import { useSendTransaction,useWaitForTransactionReceipt } from 'wagmi'
 import { useAccount } from "wagmi";
 import { ethers } from 'ethers';
 import { ToastContainer, toast } from 'react-toastify';
+import {useNavigate} from 'react-router-dom'
 
 function Navbar() {
   const notify = () => toast("Sending you ETH....");
   const succ = () => toast("1 ETH Sent Successfully");
   const { address, isConnected, connector,chain } = useAccount();
+  const navigate = useNavigate()
 
   const HARDHAT_PRIVATE_KEY="0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 
@@ -41,7 +43,17 @@ function Navbar() {
 
   return (
     <> 
-        <div className="flex gap-3 bg-blue-100 justify-end p-3">
+        <div className="flex gap-3 bg-blue-200 justify-between p-3 shadow-2xl fixed w-screen px-4">
+        <div className="flex gap-6 justify-center items-center">
+          <img src="https://cdn3.emoji.gg/emojis/7903-ethereum.png" className=' cursor-pointer' width="40px" height="40px" alt="Ethereum" onClick={()=>{
+            navigate('/')
+          }}/>
+          <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 cursor-pointer rounded-full hover:bg-blue-100 hover:shadow-2xl">IPFS Upload</button>
+          <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 rounded-full cursor-pointer hover:bg-blue-100 hover:shadow-2xl transition-all duration-500">Mint NFT</button>
+          <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 rounded-full cursor-pointer hover:bg-blue-100 hover:shadow-2xl transition-all duration-500" onClick={()=>{
+            navigate('/contract')
+          }}>Interact with Contract</button>
+        </div>
         <ConnectButton/>
         {(chain && chain.name==="Localhost") && (
           <>

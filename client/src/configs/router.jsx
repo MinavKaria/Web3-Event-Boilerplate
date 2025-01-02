@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Landing from "../pages/Landing";
 import Layout from "../pages/Layout";
+import SmartContractInteraction from "../pages/Contract";
 
 const router=createBrowserRouter([
     {
@@ -10,6 +11,14 @@ const router=createBrowserRouter([
             {
                 path:'/',
                 element:<Landing/>
+            },
+            {
+                path:'/contract',
+                element:(
+                    <>
+                        <SmartContractInteraction/>
+                    </>
+                )
             }
         ]
     },
