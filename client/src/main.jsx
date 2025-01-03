@@ -27,7 +27,7 @@ const projectId = "499e7cd761ba71c71185d1af33688728";
 
 const localhost = {
   id: 31337,
-  name: 'Localhost',
+  name: 'Hardhat (Local only)',
   network: 'localhost',
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
   rpcUrls: {
@@ -81,7 +81,6 @@ createRoot(document.getElementById('root')).render(
       <QueryClientProvider client={queryClient}>
         <RainbowKitProvider 
           showRecentTransactions={true}
-          coolMode
         >
           <App />
         </RainbowKitProvider>
