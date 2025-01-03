@@ -3,16 +3,8 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import "@rainbow-me/rainbowkit/styles.css";
-import { getDefaultConfig, RainbowKitProvider, connectorsForWallets } from "@rainbow-me/rainbowkit";
+import { getDefaultConfig, RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { WagmiProvider } from "wagmi";
-import {
-  injectedWallet,
-  walletConnectWallet,
-  coinbaseWallet,
-  metaMaskWallet,
-  braveWallet,
-  rainbowWallet,
-} from "@rainbow-me/rainbowkit/wallets";
 import {
   mainnet,
   polygon,
@@ -21,61 +13,79 @@ import {
   base,
   sepolia,
 } from "wagmi/chains";
-import { http, createConfig } from "wagmi";
+import { http } from "wagmi";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { connectorsForWallets } from '@rainbow-me/rainbowkit';
+import {
+   binanceWallet, braveWallet, coinbaseWallet, injectedWallet, ledgerWallet, metaMaskWallet, nestWallet, rainbowWallet, trustWallet, uniswapWallet, walletConnectWallet
+} from '@rainbow-me/rainbowkit/wallets';
 
 
 const queryClient = new QueryClient();
 
-export const localhost = {
+const projectId = "499e7cd761ba71c71185d1af33688728";
+
+const localhost = {
   id: 31337,
   name: 'Localhost',
+  network: 'localhost',
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
   rpcUrls: {
-    default: { http: ['http://localhost:8545'] },
-  },
-  blockExplorers: {
-    default: { name: 'None', url: '' },
-  },
-  testnet: true,
+    default: { 
+      http: [`http://localhost:8545`]
+    },
+    public: {
+      http: [`http://localhost:8545`]
+    }
+  }
 };
 
 const connectors = connectorsForWallets(
   [
     {
       groupName: 'Recommended',
-      wallets: [rainbowWallet, walletConnectWallet, metaMaskWallet, injectedWallet, coinbaseWallet, braveWallet],
+      wallets: [rainbowWallet, walletConnectWallet, metaMaskWallet,  injectedWallet,braveWallet],
     },
+    {
+      groupName:'Other Wallets',
+      wallets:[coinbaseWallet, trustWallet, uniswapWallet, binanceWallet, nestWallet, ledgerWallet,]
+    }
   ],
   {
-    appName: 'My RainbowKit App',
-    projectId:'b0f6c378-1c16-41b0-9ee9-2d91a49a01fe=a956e808216d501e98b55e25ee9dfbc086b31a4705479d2296223e1566287bb6 '
+    appName: 'new project',
+    projectId: '499e7cd761ba71c71185d1af33688728',
   }
 );
 
-const config = createConfig({
-  chains: [mainnet, polygon, optimism, arbitrum, base, sepolia, localhost],
+const config = getDefaultConfig({
+  appName: 'My RainbowKit App',
+  projectId,
+  chains: [localhost, mainnet, polygon, optimism, arbitrum, base, sepolia],
+  ssr: true,
+  walletConnectVersion: "2",
   transports: {
+    [localhost.id]: http(`http://localhost:8545`),
     [mainnet.id]: http(),
-    [sepolia.id]: http(),
     [polygon.id]: http(),
     [optimism.id]: http(),
     [arbitrum.id]: http(),
-    [localhost.id]: http(),
+    [base.id]: http(),
+    [sepolia.id]: http()
   },
-  connectors,
+  connectors
 });
-
-
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <WagmiProvider config={config}>
       <QueryClientProvider client={queryClient}>
-        <RainbowKitProvider>
+        <RainbowKitProvider 
+          showRecentTransactions={true}
+          coolMode
+        >
           <App />
         </RainbowKitProvider>
       </QueryClientProvider>
     </WagmiProvider>
   </StrictMode>
-)
+);

@@ -8,22 +8,21 @@ function ReadOnly({ abi, contractAddress, index, contractABI }) {
   const [yes, setYes] = useState(false);
 
   const allArgsEntered = args.every((arg) => arg !== "");
-  const formattedArgs = args.map((arg) => (/^\d+$/.test(arg) ? BigInt(arg) : arg));
+  const formattedArgs = args.map((arg) =>
+    /^\d+$/.test(arg) ? BigInt(arg) : arg
+  );
   const inputSize = abi.inputs.length;
 
-  const { data, error, isFetching } = useReadContract({
+  const { data, error, isFetching,refetch } = useReadContract({
     abi: contractABI,
     address: contractAddress,
     functionName: abi.name,
-    args: allArgsEntered ? formattedArgs : undefined,
-    enabled: false, 
+    args: args,
   });
-
-  
 
   const handleFetch = () => {
     if (allArgsEntered) {
-      setFetchEnabled(true); 
+      setFetchEnabled(true);
     } else {
       alert("Please enter all required arguments.");
     }
@@ -53,7 +52,7 @@ function ReadOnly({ abi, contractAddress, index, contractABI }) {
         {abi.name}
       </h3>
       <p className="text-sm text-blue-700">Read-Only</p>
-      <p>{JSON.stringify(abi.inputs)}</p>
+      {/* <p>{JSON.stringify(abi.inputs)}</p> */}
 
       <div
         className={`overflow-hidden transition-all duration-500 ${
@@ -64,7 +63,7 @@ function ReadOnly({ abi, contractAddress, index, contractABI }) {
           <>
             {abi.inputs.map((input, index) => (
               <div
-                key={input.name}
+                key={index}
                 className="flex gap-4 mt-4 transition-all duration-500"
               >
                 <input
@@ -76,37 +75,37 @@ function ReadOnly({ abi, contractAddress, index, contractABI }) {
                     const newArgs = [...args];
                     newArgs[index] = e.target.value;
                     setArgs(newArgs);
+                    console.log(newArgs);
                   }}
                 />
               </div>
             ))}
-            {inputSize !== 0 && (
-              <button
-                className="bg-blue-600 text-white py-2 px-4 rounded-lg text-sm mt-4 font-medium hover:bg-blue-700 transition duration-500"
-                onClick={()=>{
-                    setYes(true);
-                    handleFetch();
-                }}
-              >
-                Fetch
-              </button>
-            )}
-            {yes && (
-                <>
+
+            <button
+              className="bg-blue-600 text-white py-2 px-4 rounded-lg text-sm mt-4 font-medium hover:bg-blue-700 transition duration-500"
+              onClick={() => {
+                console.log(data);
+                refetch();
+                handleFetch();
+              }}
+            >
+              Fetch
+            </button>
+
             {isFetching && (
               <p className="text-blue-700 mt-2">Fetching data...</p>
             )}
-            {data && (
+            {data !== undefined && data !== null && (
               <p className="text-green-700 mt-2">
-                Result: {JSON.stringify(formatResult(data))}
+                Result:{" "}
+                {typeof data === "bigint"
+                  ? data.toString()
+                  : JSON.stringify(formatResult(data))}
               </p>
             )}
+
             {error && (
-              <p className="text-red-700 mt-2">
-                Error: {error.message}
-              </p>
-            )}
-            </>
+              <p className="text-red-700 mt-2">Something went Wrong, Please Enter the correct data</p>
             )}
           </>
         )}

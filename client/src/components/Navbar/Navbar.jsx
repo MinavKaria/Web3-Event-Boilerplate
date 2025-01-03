@@ -48,12 +48,15 @@ function Navbar() {
           <img src="https://cdn3.emoji.gg/emojis/7903-ethereum.png" className=' cursor-pointer' width="40px" height="40px" alt="Ethereum" onClick={()=>{
             navigate('/')
           }}/>
+          <div className='hidden lg:flex '>
           <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 cursor-pointer rounded-full hover:bg-blue-100 hover:shadow-2xl">IPFS Upload</button>
           <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 rounded-full cursor-pointer hover:bg-blue-100 hover:shadow-2xl transition-all duration-500">Mint NFT</button>
           <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 rounded-full cursor-pointer hover:bg-blue-100 hover:shadow-2xl transition-all duration-500" onClick={()=>{
             navigate('/contract')
           }}>Interact with Contract</button>
+          </div>
         </div>
+        <div className='flex gap-3'>
         <ConnectButton/>
         {(chain && chain.name==="Localhost") && (
           <>
@@ -61,6 +64,7 @@ function Navbar() {
         
           </>
         )}
+        </div>
         </div>
         <ToastContainer />
     </>
