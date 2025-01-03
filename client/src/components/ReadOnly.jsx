@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useReadContract } from "wagmi";
 
-function ReadOnly({ abi, contractAddress, index, contractABI }) {
+function ReadOnly({ abi, contractAddress, key, contractABI }) {
   const [clicked, setClicked] = useState(false);
   const [args, setArgs] = useState(new Array(abi.inputs.length).fill(""));
   const [fetchEnabled, setFetchEnabled] = useState(false);
@@ -42,7 +42,7 @@ function ReadOnly({ abi, contractAddress, index, contractABI }) {
 
   return (
     <div
-      key={index}
+      key={key}
       className="border border-blue-300 p-4 rounded-lg transition-all duration-500"
     >
       <h3
@@ -89,7 +89,7 @@ function ReadOnly({ abi, contractAddress, index, contractABI }) {
                 handleFetch();
               }}
             >
-              Fetch
+              {inputSize > 0 ? "Fetch" : "Refresh"}
             </button>
 
             {isFetching && (
