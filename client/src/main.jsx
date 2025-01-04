@@ -27,7 +27,7 @@ const projectId = "499e7cd761ba71c71185d1af33688728";
 
 const localhost = {
   id: 31337,
-  name: 'Hardhat (Local only)',
+  name: 'Hardhat',
   network: 'localhost',
   nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
   rpcUrls: {

@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Landing from "../pages/Landing";
 import Layout from "../pages/Layout";
 import SmartContractInteraction from "../pages/Contract";
+import Trail from "../pages/Trail";
 
 const router=createBrowserRouter([
     {
@@ -17,6 +18,14 @@ const router=createBrowserRouter([
                 element:(
                     <>
                         <SmartContractInteraction/>
+                    </>
+                )
+            },
+            {
+                path:'/trail',
+                element:(
+                    <>
+                        <Trail/>
                     </>
                 )
             }

@@ -58,7 +58,7 @@ function Navbar() {
         </div>
         <div className='flex gap-3'>
         <ConnectButton/>
-        {(chain && chain.name==="Localhost") && (
+        {(chain && chain.name==="Hardhat") && (
           <>
             <button className="shadow-md p-2 rounded-lg bg-white flex justify-center items-center" onClick={sendEther}>Get 1<img src="https://cdn3.emoji.gg/emojis/7903-ethereum.png" width="20px" height="20px" alt="Ethereum"/></button>
         
