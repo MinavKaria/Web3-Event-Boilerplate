@@ -3,25 +3,14 @@ import { useReadContract, useReadContracts, useWriteContract } from "wagmi";
 import ReadOnly from "../components/ReadOnly";
 import ReadWrite from "../components/ReadWrite";
 import contractFetchLink from "./../utils/GetContractLink";
+import { useAccount } from "wagmi";
 
 function Contract() {
-  const [contractABI, setContractABI] = useState(() => {
-    const saved = localStorage.getItem("contractABI");
-    const timestamp = localStorage.getItem("lastActive");
+  const account = useAccount();
+  // console.log(account.chain.name.toLowerCase());
 
-    if (saved && timestamp && Date.now() - parseInt(timestamp) < 900000) {
-      return JSON.parse(saved);
-    }
-    localStorage.clear();
-    return [];
-  });
-
-  const [contractAddress, setContractAddress] = useState(() => {
-    const timestamp = localStorage.getItem("lastActive");
-    return timestamp && Date.now() - parseInt(timestamp) < 900000
-      ? localStorage.getItem("contractAddress") || ""
-      : "";
-  });
+  const [contractABI, setContractABI] = useState([]);
+  const [contractAddress, setContractAddress] = useState("");
 
   const readOnlyFunctions = useMemo(
     () =>
@@ -39,42 +28,11 @@ function Contract() {
     [contractABI]
   );
 
-  useEffect(() => {
-    const updateLastActive = () => {
-      localStorage.setItem("lastActive", Date.now().toString());
-    };
-
-    if (contractABI.length || contractAddress) {
-      localStorage.setItem("contractABI", JSON.stringify(contractABI));
-      localStorage.setItem("contractAddress", contractAddress);
-      updateLastActive();
-    }
-
-    const events = ["mousemove", "keypress"];
-    events.forEach((event) => window.addEventListener(event, updateLastActive));
-
-    const cleanup = setInterval(() => {
-      const lastActive = localStorage.getItem("lastActive");
-      if (lastActive && Date.now() - parseInt(lastActive) > 900000) {
-        localStorage.clear();
-        setContractABI([]);
-        setContractAddress("");
-      }
-    }, 60000);
-
-    return () => {
-      events.forEach((event) =>
-        window.removeEventListener(event, updateLastActive)
-      );
-      clearInterval(cleanup);
-    };
-  }, [contractABI, contractAddress]);
-
   const getContractABI = async () => {
     try {
       const link = contractFetchLink({
-        net: "sepolia",
-        apiKey: 'XKWI5WQDPQUIJTZQGEJCXBFVIYD53B3VNU',
+        net: account.chain.name.toLowerCase(),
+        apiKey: "XKWI5WQDPQUIJTZQGEJCXBFVIYD53B3VNU",
         contractAddress,
       });
       console.log(link);
@@ -91,6 +49,25 @@ function Contract() {
       alert("Failed to fetch contract ABI");
     }
   };
+
+  if(account && account.chain)
+  {
+    // console.log(account.chain.name.toLowerCase());
+    if(account.chain.name.toLowerCase() !== "sepolia")
+    {
+      return (
+        <div className="max-w-screen-lg mx-auto px-4 py-8 min-h-screen flex flex-col gap-8 justify-center items-center">
+          <h1 className="text-3xl font-semibold text-blue-900 mb-4 mt-20">
+        Interact with Smart Contract
+          </h1>
+          <h2 className="text-2xl font-semibold text-red-600">
+        Please switch to Sepolia Network
+          </h2>
+        </div>
+      );
+    }
+  }
+
 
   return (
     <div className="max-w-screen-lg mx-auto px-4 py-8 min-h-screen flex flex-col gap-8 justify-center">
