@@ -3,10 +3,11 @@ import { useWriteContract } from "wagmi";
 import { useAccount } from "wagmi";
 
 function ReadWrite({ abi, contractABI, key, contractAddress }) {
-  const { writeContract, data, error, failureReason } = useWriteContract();
+  const { writeContract, data, error, failureReason, isPending } = useWriteContract();
   const [clicked, setClicked] = useState(false);
   const [args, setArgs] = useState(new Array(abi.inputs.length).fill(""));
   const account = useAccount();
+  console.log(account);
 
   return (
     <>
@@ -50,12 +51,9 @@ function ReadWrite({ abi, contractABI, key, contractAddress }) {
               ))}
 
               <button
-                className="bg-blue-600 text-white py-2 px-4 rounded-lg text-sm mt-4 font-medium hover:bg-blue-700 transition duration-500"
+                className="bg-blue-600 text-white py-2 px-4 rounded-lg text-sm mt-4 font-medium hover:bg-blue-700 transition duration-500 disabled:opacity-50"
+                disabled={isPending || !account.isConnected}
                 onClick={() => {
-                  console.log(args);
-                  console.log(abi.name);
-                  console.log(account.address);
-                  console.log(contractABI);
                   writeContract({
                     abi: contractABI,
                     address: contractAddress,
