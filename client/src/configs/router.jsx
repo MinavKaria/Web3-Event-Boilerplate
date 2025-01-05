@@ -3,6 +3,7 @@ import Landing from "../pages/Landing";
 import Layout from "../pages/Layout";
 import SmartContractInteraction from "../pages/Contract";
 import Trail from "../pages/Trail";
+import IPFSupload from "../pages/IPFSupload";
 
 const router=createBrowserRouter([
     {
@@ -26,6 +27,14 @@ const router=createBrowserRouter([
                 element:(
                     <>
                         <Trail/>
+                    </>
+                )
+            },
+            {
+                path:"/ipfs-upload",
+                element:(
+                    <>
+                        <IPFSupload/>
                     </>
                 )
             }

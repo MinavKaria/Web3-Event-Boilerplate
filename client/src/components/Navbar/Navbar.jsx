@@ -49,7 +49,7 @@ function Navbar() {
             navigate('/')
           }}/>
           <div className='hidden lg:flex '>
-          <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 cursor-pointer rounded-full hover:bg-blue-100 hover:shadow-2xl">IPFS Upload</button>
+          <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 cursor-pointer rounded-full hover:bg-blue-100 hover:shadow-2xl" onClick={()=>{navigate('/ipfs-upload')}}>IPFS Upload</button>
           <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 rounded-full cursor-pointer hover:bg-blue-100 hover:shadow-2xl transition-all duration-500">Mint NFT</button>
           <button className="text-md font-bold text-blue-800 hover:text-blue-900 p-2 rounded-full cursor-pointer hover:bg-blue-100 hover:shadow-2xl transition-all duration-500" onClick={()=>{
             navigate('/contract')
