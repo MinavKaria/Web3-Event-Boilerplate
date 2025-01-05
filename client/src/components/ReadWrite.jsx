@@ -75,9 +75,9 @@ function ReadWrite({ abi, contractABI, key, contractAddress }) {
                       ? data.toString()
                       : JSON.stringify(data)}
                   </p>
-                  <a href={`https://sepolia.etherscan.io/tx/${data}`} className="text-blue-700 mt-2 hover:underline" target="_blank" rel="noreferrer">
+                {account.chain.name!=="Hardhat" && <a href={`https://sepolia.etherscan.io/tx/${data}`} className="text-blue-700 mt-2 hover:underline" target="_blank" rel="noreferrer">
                     View on Etherscan
-                  </a>
+                  </a>}
                 </>
               )}
               {error && (
@@ -85,10 +85,16 @@ function ReadWrite({ abi, contractABI, key, contractAddress }) {
                   Something went Wrong, Please Try Again
                 </p>
               )}
-              {failureReason && (
-                <p className="text-red-700 mt-2">
+              {account.chain.name!=='Hardhat' && failureReason && (
+                <p className="text-red-700 mt-2"> 
                   Transaction failed:{" "}
                   {JSON.stringify(failureReason.cause.cause.shortMessage)}
+                </p>
+              )}
+              {account.chain.name==='Hardhat' && failureReason && (
+                <p className="text-red-700 mt-2">
+                  Transaction failed:{" "}
+                  {JSON.stringify(failureReason)}
                 </p>
               )}
             </>

@@ -1,19 +1,24 @@
 # Web3-Event-Boilerplate
 
-For starting frontend
-
+Let's start with downloading of packages:
 ```bash
-cd client
-npm i
-npm run dev
+npm run install-packages
 ```
 
-For running local burner wallet:
-
+Then, let's turn on the local blockchain and keep that terminal open:
 ```bash
-cd hardhat
-npm i
-npx hardhat node
+npm run localchain
 ```
 
-This will turn your Local block chain on http://127.0.0.1:8545/
+Now,Open a new terminal and let's deploy the contract:
+```bash
+npm run deploy-contract
+```
+
+Now let's turn on the frontend to interact with the contract:
+```bash
+npm run frontend
+```
+
+
+

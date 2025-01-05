@@ -9,7 +9,7 @@
     "localchain":"cd hardhat && npx hardhat node",
     "frontend": "cd client && npm run dev",
     "install-packages": "cd client && npm install && cd ../hardhat && npm install",
-    "deploy-contract":"cd hardhat && npx hardhat run scripts/deploy.js --network localhost && cd ../ && node index.js"
+    "deploy-contract":"cd hardhat && npx hardhat run scripts/deployGreeting.ts --network localhost"
   },
   "keywords": [],
   "author": "",
