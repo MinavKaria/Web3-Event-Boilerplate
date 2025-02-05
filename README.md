@@ -20,5 +20,7 @@ Now let's turn on the frontend to interact with the contract:
 npm run frontend
 ```
 
+`/contract` --> interact with contract by just giving contract address (currently only for sepolia)
+
 
 
